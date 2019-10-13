@@ -109,7 +109,7 @@ class MMUSelectPlugin(octoprint.plugin.TemplatePlugin, octoprint.plugin.Settings
 				return flask.abort(409, "No active prompt")
 
 			choice = data["choice"]
-			if not isinstance(choice, int) or not choice < 5 or not choice >= 0:
+			if not isinstance(choice, int) or not choice < versions.config[self._version]['tools'] or not choice >= 0:
 				return flask.abort(400, "{!r} is not a valid value for filament choice".format(choice+1))
 
 			self._done_prompt("T" + str(choice))
