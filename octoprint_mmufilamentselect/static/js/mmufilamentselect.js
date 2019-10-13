@@ -5,23 +5,23 @@
         factory(global.OctoPrintClient);
     }
 })(this, function(OctoPrintClient) {
-    var OctoPrintMMU2Select = function(base) {
+    var OctoPrintMMUSelect = function(base) {
         this.base = base;
     };
 
-    OctoPrintMMU2Select.prototype.select = function(index, opts) {
+    OctoPrintMMUSelect.prototype.select = function(index, opts) {
         var data = {
             choice: index
         };
-        return this.base.simpleApiCommand("mmu2filamentselect", "select", data, opts);
+        return this.base.simpleApiCommand("mmufilamentselect", "select", data, opts);
     };
 
-    OctoPrintClient.registerPluginComponent("mmu2filamentselect", OctoPrintMMU2Select);
-    return OctoPrintMMU2Select;
+    OctoPrintClient.registerPluginComponent("mmufilamentselect", OctoPrintMMUSelect);
+    return OctoPrintMMUSelect;
 });
 
 $(function() {
-    function MMU2SelectViewModel(parameters) {
+    function MMUSelectViewModel(parameters) {
         var self = this;
 
         self.settings = parameters[0];
@@ -30,10 +30,15 @@ $(function() {
         self._modal = undefined;
 
         self._showPrompt = function() {
+            var tools = self.settings.settings.plugins.mmufilamentselect.tools();
+            var selections = {};
+            for (var i = 0; i < tools; i += 1) {
+                selections[i] = 'Filament ' + (i + 1);
+            }
             var opts = {
-                title: gettext("Prusa MMU2 filament select"),
-                message: gettext("Select the filament spool you wish to use for this single color print."), 
-                selections: {0:"Filament 1",1:"Filament 2",2:"Filament 3",3:"Filament 4",4:"Filament 5"},
+                title: gettext("Prusa MMU filament select"),
+                message: gettext("Select the filament spool you wish to use for this single color print."),
+                selections: selections,
                 onselect: function(index) {
                     if (index > -1) {
                         self._select(index);
@@ -43,13 +48,12 @@ $(function() {
                     self._modal = undefined;
                 }
             };
-
             self._modal = showSelectionDialog(opts)
-            setTimeout(self._closePrompt, self.settings.settings.plugins.mmu2filamentselect.timeout() * 1000);
+            setTimeout(self._closePrompt, self.settings.settings.plugins.mmufilamentselect.timeout() * 1000);
         };
 
         self._select = function(index) {
-            OctoPrint.plugins.mmu2filamentselect.select(index);
+            OctoPrint.plugins.mmufilamentselect.select(index);
         };
 
         self._closePrompt = function() {
@@ -60,10 +64,9 @@ $(function() {
 
         self.onDataUpdaterPluginMessage = function(plugin, data) {
             if (!self.loginState.isUser()) return;
-            if (plugin !== "mmu2filamentselect") {
+            if (plugin !== "mmufilamentselect") {
                 return;
             }
-
             switch (data.action) {
                 case "show": {
                     self._showPrompt();
@@ -79,7 +82,7 @@ $(function() {
     }
 
     OCTOPRINT_VIEWMODELS.push({
-        construct: MMU2SelectViewModel,
+        construct: MMUSelectViewModel,
         dependencies: ["settingsViewModel","loginStateViewModel"]
     });
 });

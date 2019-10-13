@@ -18,7 +18,7 @@ babel_pack --locale=<locale> [ --author=<author> ]
     with each new release of your plugin and have to depend on contributors for.
 
 If you want to bundle translations with your plugin, create a new folder
-`octoprint_mmu2filamentselect/translations`. When that folder exists,
+`octoprint_mmufilamentselect/translations`. When that folder exists,
 an additional command becomes available:
 
 babel_bundle --locale=<locale>

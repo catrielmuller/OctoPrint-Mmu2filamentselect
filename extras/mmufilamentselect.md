@@ -1,9 +1,9 @@
 ---
 layout: plugin
 
-id: mmu2filamentselect
-title: OctoPrint-Mmu2filamentselect
-description: Select the filament for Prusa MMU2 when printing in single mode.
+id: mmufilamentselect
+title: octoprint-mmufilamentselect
+description: Select the filament for Prusa MMU when printing in single mode.
 author: Florian Schütte
 license: AGPLv3
 
@@ -17,9 +17,14 @@ follow_dependency_links: false
 
 tags:
 - prusa
+- mmu
+- mmu1
 - mmu2
 - gcode
 - prusa mmu2
+- prusa mmu1
+- single
+- color
 - filament
 - notification
 

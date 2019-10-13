@@ -1,0 +1,23 @@
+<form class="form-horizontal">
+    <div class="control-group">
+        <label class="control-label">{{ _('Version') }}</label>
+        <div class="controls">
+            <label class="radio">
+                <input type="radio" name="mmufilamentselect-version" value="MMU1" data-bind="checked: settings.plugins.mmufilamentselect.version"> {{ _('MMU1') }}
+            </label>
+            <label class="radio">
+                <input type="radio" name="mmufilamentselect-version" value="MMU2" data-bind="checked: settings.plugins.mmufilamentselect.version"> {{ _('MMU2') }}
+            </label>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{{ _('Timeout') }}</label>
+        <div class="controls">
+            <div class="input-append">
+                <input type="number" class="input-mini text-right" class="input-block-level" data-bind="value: settings.plugins.mmufilamentselect.timeout">
+                <span class="add-on">{{ _('seconds') }}</span>
+			</div>
+            <span class="help-block"><small>{{ _('After this given time, the dialog closes and the print will go on as usual. This means you have to select the filament at your printer.') }}</small></span>
+        </div>
+    </div>
+</form>
